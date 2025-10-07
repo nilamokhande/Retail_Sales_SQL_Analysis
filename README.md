@@ -174,5 +174,46 @@ LIMIT 5;
 **Insights:**  
 These customers bought from different categories on different dates.
 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+I am using a single table for a SQL project, the **1 to Many (1:M)** relationship is best represented by a **Recursive Relationship** (a Self-Join), which shows that **One Customer** is linked to **Many Transactions** within the same table structure.
+
+Here is the clean **Model View ER Diagram** 
+
+---
+
+## 💾 Model View: 1:M Recursive Relationship (Self-Join)
+
+This diagram visualizes the primary **One-to-Many** relationship in your `retail_sales` dataset: the link between a unique customer and all their transactions.
+
+### 1. The Entity (The Table)
+
+| Entity | Attributes (Key Columns) | Data Type | Role |
+| :--- | :--- | :--- | :--- |
+| **`retail_sales`** | **`transactions_id`** | INT | **Primary Key (PK)** |
+| | **`customer_id`** | INT | **Foreign Key / Join Key** |
+| | `sale_date` | DATE | |
+| | `total_sale` | DECIMAL | |
+
+---
+
+### 2. The 1:M Connection
+
+The relationship is named **`Generates_Transaction`** to clearly explain the business logic: One Customer generates many individual transactions.
+
+
+
+### Interpretation:
+
+| Diagram Component | SQL Interpretation (Self-Join Logic) | Cardinality |
+| :--- | :--- | :--- |
+| **The Single Box** | Represents the table being referenced twice: `retail_sales AS t1` and `retail_sales AS t2`. | |
+| **The "One" Side (Single Line)** | Logically represents the unique **Customer** instance (identified by `customer_id`). | **One** |
+| **The "Many" Side (Crow's Foot)** | Represents the **multiple transaction records** belonging to that single customer. | **Many** |
+| **SQL Join Condition** | This model is enforced in your queries by: `ON t1.customer_id = t2.customer_id`. | |
+
 ---
 
